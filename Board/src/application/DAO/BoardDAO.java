@@ -44,6 +44,7 @@ public class BoardDAO extends JDBConnection {
 				board.setContent( rs.getString("content") );
 				board.setRegDate( rs.getTimestamp("reg_date") );
 				board.setUpdDate( rs.getTimestamp("upd_date") );
+				board.setView( rs.getInt("view_count") );
 				
 				// 게시글 목록 추가
 				boardList.add(board);
@@ -65,7 +66,7 @@ public class BoardDAO extends JDBConnection {
 	 * @return
 	 */
 	public Board select(int no) {
-		
+		System.out.println("넘어온 값 : "+no);
 		// 게시글 정보 객체 생성
 		Board board = new Board();
 		
@@ -77,13 +78,11 @@ public class BoardDAO extends JDBConnection {
 		try {
 			// SQL 실행 객체 생성 - PreparedStatement (psmt)
 			psmt = con.prepareStatement(sql);
-			
 			// ? 동적 파라미터에 바인딩
 			// * psmt.setXXX( 순서번호, 매핑할 값 );
 			psmt.setInt( 1, no );		// 1번째 ? 파라미터에 매핑
 			// SQL 실행 요청
 			rs = psmt.executeQuery();
-			
 			// 조회 결과 1건 가져오기
 			if ( rs.next() ) {
 				board.setNo( rs.getInt("no") );
@@ -93,8 +92,21 @@ public class BoardDAO extends JDBConnection {
 				board.setRegDate( rs.getTimestamp("reg_date") );
 				board.setUpdDate( rs.getTimestamp("upd_date") );
 			}
+			rs.close();
 		} catch (SQLException e) {
 			System.err.println("게시글 조회 시, 예외 발생");
+			e.printStackTrace();
+		}
+		String usql = " UPDATE board SET "
+				    + " view_count = view_count + 1 " 
+		            + " WHERE no = ? "; // no 가 ? 인 데이터만 조회
+		try {
+			psmt = con.prepareStatement(usql);
+			psmt.setInt( 1, no );
+			int result = psmt.executeUpdate();
+			if(result == 1)
+				System.out.println("조회수 + 1");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return board;
