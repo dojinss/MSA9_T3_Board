@@ -36,7 +36,14 @@ public class BoardServiceImpl implements BoardService{
 		// 적영된 데이터 개수를 반환
 		// - result(결과)	: 0 --> 데이터 등록 실패
 		//					: 1 --> 데이터 등록 성공
-		if (result > 0) System.out.println("게시글 등록 성공.");
+		if (result > 0) {
+			System.out.println("=======게시글 작성완료========");
+			System.out.println("작성자 : " + board.getWriter());
+			System.out.println("제목 : " + board.getTitle());
+			System.out.println("내용 : ");
+			System.out.println(board.getContent());
+			System.out.println("===========================");
+		}
 		else System.err.println("등록 실패!");
 		return result;
 	}

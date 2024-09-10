@@ -5,6 +5,7 @@ import java.io.IOException;
 import application.Main;
 import application.DAO.BoardDAO;
 import application.DTO.Board;
+import application.Service.BoardServiceImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -17,7 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 
 public class UpdateController {
-	BoardDAO boardDAO = new BoardDAO();
+	BoardServiceImpl boardService = new BoardServiceImpl();
 	Board board = null;
     @FXML
     private AnchorPane anchorPane;
@@ -70,7 +71,7 @@ public class UpdateController {
 			board.setTitle( titleText.getText() );
 	    	board.setWriter( writeText.getText() );
 	    	board.setContent( contentText.getText() );
-	    	boardDAO.update(board);
+	    	boardService.update(board);
 			Main.setRoot("List");
 		}
     }

@@ -107,6 +107,7 @@ public class BoardDAO extends JDBConnection {
 			if(result == 1)
 				System.out.println("조회수 + 1");
 		} catch (SQLException e) {
+			System.err.println("게시글 조회수 증가 시, 예외 발생");
 			e.printStackTrace();
 		}
 		return board;

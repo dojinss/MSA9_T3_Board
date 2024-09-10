@@ -5,6 +5,7 @@ import java.io.IOException;
 import application.Main;
 import application.DAO.BoardDAO;
 import application.DTO.Board;
+import application.Service.BoardServiceImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
 
 public class ViewController {
 	Stage stage = null;
-	BoardDAO boardDAO = new BoardDAO();
+	BoardServiceImpl boardService = new BoardServiceImpl();
     @FXML
     private Button btnDel;
 
@@ -59,7 +60,7 @@ public class ViewController {
     	content.setText(board.getContent());
     	regDate.setText( board.getRegDate().toString() );
     	updDate.setText( board.getUpdDate().toString() );
-    	boardDAO.select(board.getNo());
+    	boardService.select(board.getNo());
     }
     @FXML
     void toDelete(ActionEvent event) throws IOException {
@@ -71,7 +72,7 @@ public class ViewController {
 		
 		// 경고창에서 OK 버튼 클릭 시
 		if ( alert.showAndWait().get() == ButtonType.OK) {
-			boardDAO.delete(board.getNo());
+			boardService.delete(board.getNo());
 			System.out.println("게시글이 삭제되었습니다.");
 			Main.setRoot("List");
 		}
